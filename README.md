@@ -1,13 +1,6 @@
 # Vitalscope — A C++ Linux System Monitor & Device Explorer
 
 
-> **Educational reference implementation — not a student submission.**
-> This repository is a teaching reference for the 20-day Linux / C++ training capstone
-> (Module-9). It was produced with AI assistance at the course coordinator's request.
-> Per course rules, each student must implement their own individual project **without AI**
-> and must **not** submit this repository (or parts of it) as their own work.
-> The commit history is organised per project stage (tags `stage-1` … `stage-6`, `v1.0`)
-> to model the expected development process.
 
 ## Project description
 
