@@ -1,4 +1,4 @@
-# ProcPulse — A C++ Linux System Monitor & Device Explorer
+# Vitalscope — A C++ Linux System Monitor & Device Explorer
 
 ![C++17](https://img.shields.io/badge/C%2B%2B-17-00599C.svg)
 ![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20WSL-8A2BE2.svg)
@@ -16,7 +16,7 @@
 
 ## Project description
 
-ProcPulse is a small, dependency-free system monitor written in modern C++17. It answers
+vitalscope is a small, dependency-free system monitor written in modern C++17. It answers
 one question end-to-end: **how does the Linux kernel publish hardware and system state to
 ordinary userspace programs, and how does a C++ application turn that raw text into
 trustworthy numbers?**
@@ -107,7 +107,7 @@ sampler stopped cleanly
 ## Repository layout
 
 ```
-procpulse/
+vitalscope/
 ├── include/procpulse/   # public headers (one class per collector)
 ├── src/                 # implementations + main
 ├── tests/               # fixture-based unit tests + integration script
