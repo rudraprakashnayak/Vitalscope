@@ -32,7 +32,7 @@ graph LR
 | `stage-3` | **Architecture & UML** | System design, class/sequence diagrams, public APIs | [`docs/DESIGN.md`](docs/DESIGN.md) |
 | `stage-4` | **Implementation & Prototype** | Collectors (`Cpu`, `Mem`, `Proc`, `Dev`), `Sampler` thread | [`src/`](src/), [`include/vitalscope/`](include/vitalscope/) |
 | `stage-5` | **Testing & Verification** | Unit tests, test fixture tree, shell integration script | [`tests/`](tests/), [`docs/DEVLOG.md`](docs/DEVLOG.md) |
-| `stage-6` / `v1.0` | **Final Delivery & Presentation** | Project report, demo script, viva Q&A defense guide | [`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md), [`docs/PRESENTATION.md`](docs/PRESENTATION.md) |
+| `stage-6` / `v1.0` | **Final Delivery & Presentation** | Project report, demo script, viva Q&A defense guide | [`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md), [`docs/PRESENTATION.md`](docs/PRESENTATION.md), [`docs/PRESENTATION_SLIDES.html`](docs/PRESENTATION_SLIDES.html), [`docs/INTERVIEW_PRESENTATION.md`](docs/INTERVIEW_PRESENTATION.md) |
 
 ---
 
