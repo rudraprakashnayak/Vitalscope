@@ -1,10 +1,5 @@
 # Vitalscope — A C++ Linux System Monitor & Device Explorer
 
-![C++17](https://img.shields.io/badge/C%2B%2B-17-00599C.svg)
-![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20WSL-8A2BE2.svg)
-![Tests](https://img.shields.io/badge/tests-unit%20%2B%20integration-brightgreen.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Version](https://img.shields.io/badge/release-v1.0-blue.svg)
 
 > **Educational reference implementation — not a student submission.**
 > This repository is a teaching reference for the 20-day Linux / C++ training capstone
