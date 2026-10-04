@@ -2,7 +2,7 @@
 
 ## What was built
 
-ProcPulse v1.0: a C++17 Linux system monitor and device explorer. One binary with three
+Vitalscope v1.0: a C++17 Linux system monitor and device explorer. One binary with three
 modes — interactive menu, `--once` snapshot, `--live <secs>` threaded sampling — reading
 exclusively from `/proc`, `/sys` and `/dev`.
 
@@ -18,7 +18,7 @@ publishes immutable snapshots under a mutex; a `Dashboard` presents them. See
 |---|---|---|
 | Unit (parsers, fixtures) | `make test` | ALL UNIT TESTS PASSED |
 | Integration (binary vs fixtures) | `make test` | ALL INTEGRATION CHECKS PASSED |
-| Live procfs | `./build/procpulse --once` / `--live 3` | correct values vs `top`/`free`; clean SIGINT shutdown |
+| Live procfs | `./build/Vitalscope --once` / `--live 3` | correct values vs `top`/`free`; clean SIGINT shutdown |
 
 Verified on Ubuntu (WSL2), g++ 15.2, `-std=c++17 -Wall -Wextra` with zero warnings.
 
@@ -39,7 +39,7 @@ Verified on Ubuntu (WSL2), g++ 15.2, `-std=c++17 -Wall -Wextra` with zero warnin
 
 ## Future improvements
 
-- Companion character-device driver (`/dev/procpulse`) exposing the same stats via ioctl,
+- Companion character-device driver (`/dev/Vitalscope`) exposing the same stats via ioctl,
   completing the kernel-space half of the training.
 - Per-CPU rows from additional `/proc/stat` lines; CSV/JSON export; ncurses TUI.
 - Configurable alert thresholds with signal-based notification.
@@ -48,5 +48,5 @@ Verified on Ubuntu (WSL2), g++ 15.2, `-std=c++17 -Wall -Wextra` with zero warnin
 
 ```bash
 make && make test
-./build/procpulse --once
+./build/Vitalscope --once
 ```

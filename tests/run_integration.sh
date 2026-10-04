@@ -1,6 +1,6 @@
 #!/bin/sh
 # Integration smoke test: run the built binary against the fixture root.
-# usage: run_integration.sh <procpulse-binary> <fixtures-root>
+# usage: run_integration.sh <Vitalscope-binary> <fixtures-root>
 set -e
 
 BIN=$1

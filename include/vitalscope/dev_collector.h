@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace procpulse {
+namespace Vitalscope {
 
 struct DevInfo {
     std::string subsystem;  // e.g. "net", "block"
@@ -20,4 +20,4 @@ private:
     std::string root_;
 };
 
-}  // namespace procpulse
+}  // namespace Vitalscope

@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace procpulse {
+namespace Vitalscope {
 
 struct ProcInfo {
     int pid = -1;
@@ -23,4 +23,4 @@ private:
     std::string root_;
 };
 
-}  // namespace procpulse
+}  // namespace Vitalscope

@@ -1,10 +1,10 @@
-#include "procpulse/mem_collector.h"
+#include "Vitalscope/mem_collector.h"
 
 #include <sstream>
 
-#include "procpulse/fs_util.h"
+#include "Vitalscope/fs_util.h"
 
-namespace procpulse {
+namespace Vitalscope {
 
 MemSample parse_meminfo_content(const std::string& content) {
     MemSample m;
@@ -41,4 +41,4 @@ MemSample MemCollector::sample() const {
     return parse_meminfo_content(read_file(root_ + "/proc/meminfo"));
 }
 
-}  // namespace procpulse
+}  // namespace Vitalscope

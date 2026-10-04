@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace procpulse {
+namespace Vitalscope {
 
 // Throws std::runtime_error if the file cannot be opened.
 std::string read_file(const std::string& path);
@@ -16,4 +16,4 @@ std::vector<std::string> list_entries(const std::string& path);
 
 bool path_exists(const std::string& path);
 
-}  // namespace procpulse
+}  // namespace Vitalscope

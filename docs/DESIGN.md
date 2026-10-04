@@ -28,7 +28,7 @@ flowchart TD
 ```
 
 Data flows one way: pseudo-files → parsers → value structs → presentation. The kernel side
-is where drivers and subsystems publish hardware state; ProcPulse is a pure consumer,
+is where drivers and subsystems publish hardware state; Vitalscope is a pure consumer,
 which is what makes the project safe and portable.
 
 ## Component responsibilities
@@ -83,7 +83,7 @@ sequenceDiagram
     participant S as Sampler thread
     participant C as Collectors
     participant P as /proc, /sys
-    U->>M: procpulse --live 10
+    U->>M: Vitalscope --live 10
     M->>S: start()
     loop every interval
         S->>C: sample()/list()

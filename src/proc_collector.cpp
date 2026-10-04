@@ -1,4 +1,4 @@
-#include "procpulse/proc_collector.h"
+#include "Vitalscope/proc_collector.h"
 
 #include <cctype>
 #include <cstdlib>
@@ -6,9 +6,9 @@
 
 #include <algorithm>
 
-#include "procpulse/fs_util.h"
+#include "Vitalscope/fs_util.h"
 
-namespace procpulse {
+namespace Vitalscope {
 
 ProcInfo parse_proc_stat(const std::string& stat_content, const std::string& comm_fallback) {
     ProcInfo info;
@@ -59,4 +59,4 @@ std::vector<ProcInfo> ProcCollector::list() const {
     return out;
 }
 
-}  // namespace procpulse
+}  // namespace Vitalscope

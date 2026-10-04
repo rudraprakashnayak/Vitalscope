@@ -71,7 +71,7 @@ One-shot snapshot (`./build/vitalscope --root tests/fixtures --once`, reproducib
   device nodes in /dev: 2
 ```
 
-Live mode on a real system (`./build/procpulse --live 6 --interval 2`, then Ctrl-C):
+Live mode on a real system (`./build/Vitalscope --live 6 --interval 2`, then Ctrl-C):
 
 ```text
 [seq 1] cpu=0.0%  mem=9.3%  procs=84  devs=253
@@ -130,9 +130,9 @@ vitalscope/
 Requires: Linux (or WSL), `g++` with C++17 support, `make`. No root privileges needed.
 
 ```bash
-make                 # builds build/procpulse
+make                 # builds build/Vitalscope
 make test            # builds and runs unit tests against tests/fixtures
-./build/procpulse    # interactive menu (real system)
+./build/Vitalscope    # interactive menu (real system)
 ```
 
 ## License

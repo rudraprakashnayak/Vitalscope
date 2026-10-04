@@ -1,4 +1,4 @@
-#include "procpulse/fs_util.h"
+#include "Vitalscope/fs_util.h"
 
 #include <dirent.h>
 #include <sys/stat.h>
@@ -8,7 +8,7 @@
 #include <sstream>
 #include <stdexcept>
 
-namespace procpulse {
+namespace Vitalscope {
 
 std::string read_file(const std::string& path) {
     std::ifstream in(path);
@@ -55,4 +55,4 @@ bool path_exists(const std::string& path) {
     return stat(path.c_str(), &st) == 0;
 }
 
-}  // namespace procpulse
+}  // namespace Vitalscope

@@ -1,4 +1,4 @@
-#include "procpulse/dashboard.h"
+#include "Vitalscope/dashboard.h"
 
 #include <chrono>
 #include <iomanip>
@@ -6,7 +6,7 @@
 #include <limits>
 #include <thread>
 
-namespace procpulse {
+namespace Vitalscope {
 
 Dashboard::Dashboard(std::string root, std::ostream& out, const std::atomic<bool>& stop_flag)
     : root_(std::move(root)), out_(out), stop_flag_(stop_flag) {}
@@ -69,7 +69,7 @@ void Dashboard::print_snapshot() {
 
 int Dashboard::run() {
     while (!stop_flag_.load()) {
-        out_ << "\n== ProcPulse ==\n"
+        out_ << "\n== Vitalscope ==\n"
              << " 1) CPU & load\n"
              << " 2) Memory\n"
              << " 3) Processes\n"
@@ -95,4 +95,4 @@ int Dashboard::run() {
     return 0;
 }
 
-}  // namespace procpulse
+}  // namespace Vitalscope

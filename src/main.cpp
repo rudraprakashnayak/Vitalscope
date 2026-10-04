@@ -7,8 +7,8 @@
 #include <string>
 #include <thread>
 
-#include "procpulse/dashboard.h"
-#include "procpulse/sampler.h"
+#include "Vitalscope/dashboard.h"
+#include "Vitalscope/sampler.h"
 
 namespace {
 std::atomic<bool> g_stop{false};
@@ -16,7 +16,7 @@ std::atomic<bool> g_stop{false};
 void on_signal(int) { g_stop.store(true); }
 
 void print_usage(std::ostream& out) {
-    out << "usage: procpulse [--root PATH] [--interval SECS] [--once] [--live SECS] [--help]\n";
+    out << "usage: Vitalscope [--root PATH] [--interval SECS] [--once] [--live SECS] [--help]\n";
 }
 }  // namespace
 
@@ -56,18 +56,18 @@ int main(int argc, char** argv) {
 
     try {
         if (once) {
-            procpulse::Dashboard dashboard(root, std::cout, g_stop);
+            Vitalscope::Dashboard dashboard(root, std::cout, g_stop);
             dashboard.print_snapshot();
             return 0;
         }
         if (live) {
-            procpulse::Sampler sampler(root, interval);
+            Vitalscope::Sampler sampler(root, interval);
             sampler.start();
             const auto deadline = std::chrono::steady_clock::now() +
                                   std::chrono::milliseconds(static_cast<long long>(live_seconds * 1000.0));
             while (!g_stop.load() && std::chrono::steady_clock::now() < deadline) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(200));
-                const procpulse::Snapshot snap = sampler.latest();
+                const Vitalscope::Snapshot snap = sampler.latest();
                 if (snap.seq == 0) {
                     continue;
                 }
@@ -81,10 +81,10 @@ int main(int argc, char** argv) {
             std::cout << "sampler stopped cleanly\n";
             return 0;
         }
-        procpulse::Dashboard dashboard(root, std::cout, g_stop);
+        Vitalscope::Dashboard dashboard(root, std::cout, g_stop);
         return dashboard.run();
     } catch (const std::exception& e) {
-        std::cerr << "procpulse: " << e.what() << "\n";
+        std::cerr << "Vitalscope: " << e.what() << "\n";
         std::cerr << "note: live system data requires Linux procfs; use --root with fixtures elsewhere\n";
         return 1;
     }
