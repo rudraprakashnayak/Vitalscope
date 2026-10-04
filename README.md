@@ -53,7 +53,7 @@ handling.
 Interactive menu:
 
 ```text
-== ProcPulse ==
+== vitalscope ==
  1) CPU & load
  2) Memory
  3) Processes
@@ -63,7 +63,7 @@ Interactive menu:
 choice:
 ```
 
-One-shot snapshot (`./build/procpulse --root tests/fixtures --once`, reproducible):
+One-shot snapshot (`./build/vitalscope --root tests/fixtures --once`, reproducible):
 
 ```text
 -- CPU & load --
@@ -96,19 +96,19 @@ sampler stopped cleanly
 
 | Command | Effect |
 |---|---|
-| `make` | build `build/procpulse` |
+| `make` | build `build/vitalscope` |
 | `make test` | unit tests (fixtures) + integration script |
-| `./build/procpulse` | interactive menu on the live system |
-| `./build/procpulse --once` | single snapshot of the live system |
-| `./build/procpulse --live 10` | sampler thread prints every 2 s for 10 s |
-| `./build/procpulse --root tests/fixtures --once` | snapshot from fixtures (deterministic) |
-| `./build/procpulse --interval 0.5 --live 5` | custom sampling interval |
+| `./build/vitalscope` | interactive menu on the live system |
+| `./build/vitalscope --once` | single snapshot of the live system |
+| `./build/vitalscope --live 10` | sampler thread prints every 2 s for 10 s |
+| `./build/vitalscope --root tests/fixtures --once` | snapshot from fixtures (deterministic) |
+| `./build/vitalscope --interval 0.5 --live 5` | custom sampling interval |
 
 ## Repository layout
 
 ```
 vitalscope/
-├── include/procpulse/   # public headers (one class per collector)
+├── include/vitalscope/   # public headers (one class per collector)
 ├── src/                 # implementations + main
 ├── tests/               # fixture-based unit tests + integration script
 │   └── fixtures/        # saved /proc, /sys and /dev samples
