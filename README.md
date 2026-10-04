@@ -1,45 +1,124 @@
 # Vitalscope — A C++ Linux System Monitor & Device Explorer
 
+[![C++17](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://en.cppreference.com/w/cpp/17)
+[![Build & Test](https://img.shields.io/badge/Build-Passing-brightgreen.svg)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+Vitalscope is a modern, dependency-free Linux system monitoring and device exploration tool written in C++17. It answers one fundamental question end-to-end: **how does the Linux kernel publish hardware and system state to ordinary userspace programs, and how does a C++ application turn that raw text into trustworthy numbers?**
 
-## Project description
+It reads the kernel's own information interfaces — `/proc` (CPU counters, memory zones, per-process records), `/sys/class` (the device tree drivers publish) and `/dev` (device nodes) — and presents them as a clean console dashboard. No root privileges, no third-party libraries, no kernel code: just careful parsing, an asynchronous sampler thread, and polite signal handling.
 
-vitalscope is a small, dependency-free system monitor written in modern C++17. It answers
-one question end-to-end: **how does the Linux kernel publish hardware and system state to
-ordinary userspace programs, and how does a C++ application turn that raw text into
-trustworthy numbers?**
+---
 
-It reads the kernel's own information interfaces — `/proc` (CPU counters, memory zones,
-per-process records), `/sys/class` (the device tree drivers publish) and `/dev` (device
-nodes) — and presents them as a clean console dashboard. No root privileges, no
-libraries, no kernel code: just careful parsing, one sampler thread, and polite signal
-handling.
+## 1. Professional Software Development Process (Stage 1 → Stage 6)
 
-**Data flow (one direction, by design):**
+Vitalscope demonstrates a complete professional software engineering process—from initial scope formulation and requirement specifications to architectural design, modular prototyping, fixture-based testing, and final project delivery.
 
+```mermaid
+graph LR
+    S1[Stage 1: Scope & Intro] --> S2[Stage 2: Requirements & PRD]
+    S2 --> S3[Stage 3: Design & UML]
+    S3 --> S4[Stage 4: Implementation]
+    S4 --> S5[Stage 5: Testing & Verification]
+    S5 --> S6[Stage 6: Final Delivery & Presentation]
 ```
-/proc, /sys, /dev  →  fs_util  →  collectors  →  value structs  →  dashboard / sampler
-   (kernel)          (read)      (parse)         (C++ types)        (presentation)
-```
 
-## Features at a glance
+### Stage-by-Stage Lifecycle & Deliverables
 
-| Feature | Source interface | What you get |
+| Stage Tag | Lifecycle Phase | Deliverables & Artifacts | Evidence & Documentation |
+|---|---|---|---|
+| `stage-1` | **Scope & Problem Definition** | System scope, training topic coverage, outcomes | [`docs/PROJECT_INTRO.md`](docs/PROJECT_INTRO.md) |
+| `stage-2` | **Requirements & PRD** | Functional & non-functional specifications | [`docs/PRD.md`](docs/PRD.md) |
+| `stage-3` | **Architecture & UML** | System design, class/sequence diagrams, public APIs | [`docs/DESIGN.md`](docs/DESIGN.md) |
+| `stage-4` | **Implementation & Prototype** | Collectors (`Cpu`, `Mem`, `Proc`, `Dev`), `Sampler` thread | [`src/`](src/), [`include/vitalscope/`](include/vitalscope/) |
+| `stage-5` | **Testing & Verification** | Unit tests, test fixture tree, shell integration script | [`tests/`](tests/), [`docs/DEVLOG.md`](docs/DEVLOG.md) |
+| `stage-6` / `v1.0` | **Final Delivery & Presentation** | Project report, demo script, viva Q&A defense guide | [`docs/FINAL_REPORT.md`](docs/FINAL_REPORT.md), [`docs/PRESENTATION.md`](docs/PRESENTATION.md) |
+
+---
+
+## 2. Features at a Glance
+
+| Feature | Source Interface | Description |
 |---|---|---|
-| CPU usage & load | `/proc/stat`, `/proc/loadavg` | usage % over a sample window, 1/5/15-min load |
-| Memory | `/proc/meminfo` | total / used / available / cached, usage % |
-| Processes | `/proc/<pid>/comm`, `/proc/<pid>/stat` | PID, name, state (sorted by PID) |
-| Devices | `/sys/class/*`, `/dev` | subsystem → device enumeration, node count |
-| Interactive menu | — | pick any section on demand |
-| One-shot mode | `--once` | single snapshot, script/CI friendly |
-| Live mode | `--live <secs>` | background sampler thread, periodic lines |
-| Clean shutdown | SIGINT / SIGTERM | thread joined, exit code 0 |
-| Testability | `--root <path>` | every collector reads from an alternate root (fixtures) |
+| **CPU Usage & Load** | `/proc/stat`, `/proc/loadavg` | Usage % over sample window, 1/5/15-min load averages |
+| **Memory Metrics** | `/proc/meminfo` | Total, used, available, cached memory, usage % |
+| **Process Explorer** | `/proc/<pid>/comm`, `/proc/<pid>/stat` | PID, executable name, state (sorted by PID) |
+| **Device Tree** | `/sys/class/*`, `/dev` | Subsystem → device enumeration, device node count |
+| **Interactive Menu** | Terminal CLI | Pick any health section on demand |
+| **One-Shot Snapshot** | `--once` | Single snapshot output (script & CI friendly) |
+| **Live Sampler Thread** | `--live <secs>` | Background sampler thread with periodic stdout updates |
+| **Deterministic Testing** | `--root <path>` | Redirects root filesystem to saved fixtures |
+| **Clean Shutdown** | `SIGINT` / `SIGTERM` | Thread safely joined, exit code 0 |
 
-## Sample output
+---
 
-Interactive menu:
+## 3. Architecture & Data Flow
 
+Data flows in a single direction: kernel pseudo-files are parsed into C++ value structs, bundled into immutable snapshots, and safely rendered by presentation components.
+
+```
+/proc, /sys, /dev  →  fs_util  →  Collectors  →  Snapshot Struct  →  Dashboard / Sampler
+   (kernel)          (read)      (parse)        (C++ types)        (presentation)
+```
+
+### Class Hierarchy
+```mermaid
+classDiagram
+    class CpuCollector { +sample() CpuSample }
+    class MemCollector { +sample() MemSample }
+    class ProcCollector { +list() vector~ProcInfo~ }
+    class DevCollector { +list() vector~DevInfo~ +count_dev_nodes() long }
+    class Sampler { -root_ -interval_ -latest_ +start() +stop() +latest() Snapshot }
+    class Dashboard { +run() int +print_snapshot() }
+    Sampler --> CpuCollector
+    Sampler --> MemCollector
+    Sampler --> ProcCollector
+    Sampler --> DevCollector
+    Dashboard --> CpuCollector
+    Dashboard --> MemCollector
+    Dashboard --> ProcCollector
+    Dashboard --> DevCollector
+```
+
+---
+
+## 4. Build, Run & Demonstration
+
+### Prerequisites
+- Linux or WSL (Ubuntu 20.04+ recommended)
+- `g++` compiler supporting C++17
+- `make` utility
+
+### Quick Start & Automated Verification
+```bash
+# 1. Clone repository
+git clone https://github.com/rudraprakashnayak/Vitalscope.git
+cd Vitalscope
+
+# 2. Build application and execute test suite
+make && make test
+```
+
+### Running System Demonstration Modes
+```bash
+# Interactive menu mode
+./build/vitalscope
+
+# One-shot snapshot mode
+./build/vitalscope --once
+
+# Live background sampler (e.g. 10 seconds, 2s interval)
+./build/vitalscope --live 10 --interval 2
+
+# Reproducible test snapshot using saved fixtures (no Linux kernel required)
+./build/vitalscope --root tests/fixtures --once
+```
+
+---
+
+## 5. Sample Outputs
+
+### Interactive Console Dashboard
 ```text
 == vitalscope ==
  1) CPU & load
@@ -51,8 +130,7 @@ Interactive menu:
 choice:
 ```
 
-One-shot snapshot (`./build/vitalscope --root tests/fixtures --once`, reproducible):
-
+### One-Shot Snapshot Output (`./build/vitalscope --root tests/fixtures --once`)
 ```text
 -- CPU & load --
   user=100 system=50 idle=800 iowait=0
@@ -71,70 +149,21 @@ One-shot snapshot (`./build/vitalscope --root tests/fixtures --once`, reproducib
   device nodes in /dev: 2
 ```
 
-Live mode on a real system (`./build/Vitalscope --live 6 --interval 2`, then Ctrl-C):
+---
 
-```text
-[seq 1] cpu=0.0%  mem=9.3%  procs=84  devs=253
-[seq 2] cpu=0.8%  mem=9.1%  procs=28  devs=253
-[seq 3] cpu=0.0%  mem=9.1%  procs=28  devs=253
-sampler stopped cleanly
-```
+## 6. Training Topic Coverage
 
-## Commands
-
-| Command | Effect |
+| Core Topic | Where It Appears in Vitalscope |
 |---|---|
-| `make` | build `build/vitalscope` |
-| `make test` | unit tests (fixtures) + integration script |
-| `./build/vitalscope` | interactive menu on the live system |
-| `./build/vitalscope --once` | single snapshot of the live system |
-| `./build/vitalscope --live 10` | sampler thread prints every 2 s for 10 s |
-| `./build/vitalscope --root tests/fixtures --once` | snapshot from fixtures (deterministic) |
-| `./build/vitalscope --interval 0.5 --live 5` | custom sampling interval |
+| **Linux OS Interfaces** | `procfs` and `sysfs` navigation, `/proc` PID parsing, POSIX signals |
+| **Computer Architecture** | CPU time state counters, memory hierarchy calculations, load averages |
+| **Hardware & Software** | Hardware device discovery via `/sys/class` and character/block nodes in `/dev` |
+| **System Programming** | Asynchronous sampler thread (`std::thread`), mutex synchronization, file I/O |
+| **Modern C++17** | RAII resource management, STL containers, exceptions, string parsing |
 
-## Repository layout
+---
 
-```
-vitalscope/
-├── include/vitalscope/   # public headers (one class per collector)
-├── src/                 # implementations + main
-├── tests/               # fixture-based unit tests + integration script
-│   └── fixtures/        # saved /proc, /sys and /dev samples
-├── docs/                # stage documents (intro, PRD, design, devlog, report, slides)
-└── Makefile
-```
+## 7. License
 
-## Project stages (capstone process)
+Distributed under the MIT License. See [`LICENSE`](LICENSE) for details.
 
-| Tag | Stage | Contents |
-|---|---|---|
-| `stage-1` | Introduction | `docs/PROJECT_INTRO.md` |
-| `stage-2` | Requirements & plan | `docs/PRD.md` |
-| `stage-3` | Design & architecture | `docs/DESIGN.md` (UML), headers, build setup |
-| `stage-4` | Prototype | working collectors + CLI |
-| `stage-5` | Testing & improvement | `tests/`, `docs/DEVLOG.md` |
-| `stage-6` / `v1.0` | Final & presentation | `docs/FINAL_REPORT.md`, `docs/PRESENTATION.md` |
-
-## Training-topic coverage
-
-| Topic | Where it appears |
-|---|---|
-| Linux | procfs / sysfs, processes, permissions, shell usage |
-| Computer architecture | CPU time states, memory hierarchy, load average |
-| Hardware & software | how kernel and drivers expose hardware via `/sys` and `/dev` |
-| System programming | file I/O, threads, signals, timers |
-| C++ | classes, RAII, STL containers, streams, exceptions |
-
-## Build & run
-
-Requires: Linux (or WSL), `g++` with C++17 support, `make`. No root privileges needed.
-
-```bash
-make                 # builds build/Vitalscope
-make test            # builds and runs unit tests against tests/fixtures
-./build/Vitalscope    # interactive menu (real system)
-```
-
-## License
-
-MIT — see [LICENSE](LICENSE).
